@@ -1,0 +1,58 @@
+name: QA Playground
+on: [push]
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Start infra
+        run: docker compose up -d --build
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Wait for services
+        run: timeout 60s bash -c 'until curl -s localhost:8000; do sleep 2; done'
+
+      - name: Run API Tests
+        env:
+          LOCAL_DB: "True"
+          DB_HOST: localhost
+          PYTHONPATH: .
+        run: pytest tests/test_api.py --alluredir=allure-results
+
+      - name: Run UI Tests
+        if: always()
+        env:
+          LOCAL_DB: "True"
+          DB_HOST: localhost
+          PYTHONPATH: .
+        run: pytest tests/test_ui.py --alluredir=allure-results
+
+      - name: Generate Allure Report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: allure-results
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: allure-report
