@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"252abc5fd44f806a4417476b45f722ba","name":"Тестирование бэкенда","statistic":{"failed":0,"broken":0,"skipped":0,"passed":8,"unknown":0,"total":8}},{"uid":"2a59381a2a45cff91939d269af58be2c","name":"Тестирование фронтенда","statistic":{"failed":0,"broken":0,"skipped":0,"passed":5,"unknown":0,"total":5}}]}
