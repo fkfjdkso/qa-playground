@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Playground</title>
+    <link rel="stylesheet" href="/static/css/style.css">    
+</head>
+<body>
+<div class="container">
+    <h1>QA Playground</h1>
+    
+    <form id="qa-form">
+        <div class="form-group">
+            <label for="country_input">Enter Country (e.g., ru, us)</label>
+            <input type="text" id="country_input" placeholder="ru" required>
+        </div>
+
+        <div class="form-group">
+            <label for="zip_input">Enter Zip Code</label>
+            <input type="text" id="zip_input" placeholder="101000" required>
+        </div>
+
+        <div class="form-group">
+            <label for="city_output">City (Auto-detected)</label>
+            <input type="text" id="city_output" readonly placeholder="Waiting for API...">
+        </div>
+
+        <button type="button" id="submit_btn">Save to Database</button>
+    </form>
+
+     <div class="bug-panel">
+        <h3>Bug Injection</h3>
+        <label class="bug-option">
+            <input type="checkbox" id="bug_slow_db"> Slow DB Response
+        </label>
+        <label class="bug-option">
+            <input type="checkbox" id="bug_integrity"> Allow Duplicates
+        </label>
+        <label class="bug-option">
+            <input type="checkbox" id="bug_ui_ghost"> Ghost Submit Button
+        </label>
+        <label class="bug-option">
+            <input type="checkbox" id="bug_data_loss"> Data Truncation (City)
+        </label>
+    </div>
+
+    <div id="status_message" style="margin-top: 15px; text-align: center; font-weight: bold; min-height: 20px;"></div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
